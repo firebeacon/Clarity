@@ -222,7 +222,8 @@ import { AuthService } from './auth.service';
     @if (showGoalsModal()) {
       <div
         class="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
-        (click)="closeGoalsModal()"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && closeGoalsModal()"
       >
         <div
           class="bg-gray-800 rounded-lg p-6 max-w-3xl max-h-[85vh] w-full mx-4 flex flex-col"
@@ -348,7 +349,8 @@ import { AuthService } from './auth.service';
     @if (showConstraintsModal()) {
       <div
         class="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
-        (click)="closeConstraintsModal()"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && closeConstraintsModal()"
       >
         <div
           class="bg-gray-800 rounded-lg p-6 max-w-4xl max-h-[80vh] w-full mx-4 overflow-hidden"
@@ -392,7 +394,8 @@ import { AuthService } from './auth.service';
     @if (showApplyGoalsConfirm()) {
       <div
         class="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
-        (click)="showApplyGoalsConfirm.set(false)"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && showApplyGoalsConfirm.set(false)"
       >
         <div
           class="bg-gray-800 rounded-lg p-6 max-w-sm w-full mx-4"
@@ -423,7 +426,8 @@ import { AuthService } from './auth.service';
     @if (showApplyConstraintsConfirm()) {
       <div
         class="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
-        (click)="showApplyConstraintsConfirm.set(false)"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && showApplyConstraintsConfirm.set(false)"
       >
         <div
           class="bg-gray-800 rounded-lg p-6 max-w-sm w-full mx-4"
@@ -463,6 +467,7 @@ export class WorkspaceLeftComponent implements OnInit {
   @Output() goalsChanged = new EventEmitter<void>();
 
   private initLoadCount = 0;
+  backdropMousedownTarget: EventTarget | null = null;
 
   constraints = signal<string>('');
   goals = signal<any[]>([]);

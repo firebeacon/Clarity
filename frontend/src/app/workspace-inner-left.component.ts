@@ -110,7 +110,8 @@ import { AuthService } from './auth.service';
     @if (showSeedModal() && selectedSeed()) {
       <div
         class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-        (click)="closeSeedModal()"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && closeSeedModal()"
       >
         <div
           class="bg-gray-800 rounded-xl border border-gray-700 w-[600px] max-h-[80vh] flex flex-col shadow-xl"
@@ -247,7 +248,8 @@ import { AuthService } from './auth.service';
     @if (showConsolidateModal()) {
       <div
         class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-        (click)="showConsolidateModal.set(false)"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && showConsolidateModal.set(false)"
       >
         <div
           class="bg-gray-800 rounded-xl border border-gray-700 w-[420px] max-h-[70vh] flex flex-col shadow-xl"
@@ -313,7 +315,8 @@ import { AuthService } from './auth.service';
     @if (confirmingConsolidate()) {
       <div
         class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-        (click)="confirmingConsolidate.set(false)"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && confirmingConsolidate.set(false)"
       >
         <div
           class="bg-gray-800 rounded-xl border border-gray-700 p-5 w-[380px] shadow-xl"
@@ -360,7 +363,8 @@ import { AuthService } from './auth.service';
     @if (showRenameModal()) {
       <div
         class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-        (click)="skipRename()"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && skipRename()"
       >
         <div
           class="bg-gray-800 rounded-xl border border-gray-700 p-5 w-[380px] shadow-xl"
@@ -420,6 +424,7 @@ export class WorkspaceInnerLeftComponent implements OnInit {
 
   editingContent = signal(false);
   editContentText = '';
+  backdropMousedownTarget: EventTarget | null = null;
 
   ngOnInit() {
     this.load();

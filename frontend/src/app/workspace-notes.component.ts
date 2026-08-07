@@ -95,7 +95,8 @@ import { AuthService } from './auth.service';
     @if (modalOpen()) {
       <div
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-        (click)="closeModal()"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && closeModal()"
       >
         <div
           class="bg-gray-900 border border-gray-700 rounded-lg shadow-2xl w-[560px] max-h-[75vh] flex flex-col"
@@ -204,6 +205,7 @@ export class WorkspaceNotesComponent implements OnInit {
   modalOpen = signal(false);
   modalNote = signal<any | null>(null);
   confirmingDelete = signal(false);
+  backdropMousedownTarget: EventTarget | null = null;
 
   editTitle = '';
   editBody = '';
