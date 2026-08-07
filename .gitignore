@@ -1,0 +1,40 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build output
+dist/
+tmp/
+out-tsc/
+
+# Environment
+.env
+.env.*
+!.env.example
+!.env.path.example
+
+# Database
+backend/data/*.db
+
+# IDEs
+.vscode/*
+frontend/.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.idea/
+*.sublime-workspace
+
+# Angular
+.angular/*
+frontend/.angular/*
+
+# OS
+.DS_Store
+Thumbs.db
+deploy/deploy.sh
+
+

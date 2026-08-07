@@ -1,0 +1,31 @@
+{
+  "name": "clarity-backend",
+  "version": "0.0.1",
+  "description": "Backend for Clarity - goal driven conversations with a constrained LLM.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest",
+    "format": "prettier --write \"src/**/*.js\" \"tests/**/*.js\""
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.6",
+    "dotenv": "^8.6.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^8.5.2",
+    "helmet": "^8.2.0",
+    "jsonwebtoken": "^9.0.3",
+    "knex": "^2.5.1",
+    "node-cron": "^4.6.0",
+    "sanitize-html": "^2.17.5",
+    "sqlite3": "^6.0.1"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2",
+    "prettier": "^3.9.6",
+    "supertest": "^6.1.0"
+  },
+  "author": "Your Name",
+  "license": "AGPL-3.0-or-later"
+}

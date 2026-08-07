@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Deploys Clarity to the server specified in /deploy/.env. See /deploy/.env.example. Assumes Linux server.
+#
+# Utilises PM2 for setting the backend up as a service that can survive reboots.
+# Usage: ./deploy/deploy.sh [--backend-only | --frontend-only] [--dry-run]
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+ENV_FILE="${SCRIPT_DIR}/.env"
+
+# Suggestion: keep your .env files outside the environment that you let clankers roam in. Or leave them here if you're brave ¯\_(00)_/¯
+# ENV_FILE="$HOME/somewhere/outside/this/location/.env"
+
+if [ ! -f "$ENV_FILE" ]; then
+  echo "Missing ${ENV_FILE} — copy deploy/.env.example to [somewhere]/deploy/.env and fill in your values" >&2
+  exit 1
+fi
+
+set -a
+# shellcheck source=/dev/null
+source "$ENV_FILE"
+set +a
+
+for var in SERVER_USER SERVER_HOST SERVER_PORT SSH_KEY; do
+  if [ -z "${!var:-}" ]; then
+    echo "Missing ${var} in ${ENV_FILE}" >&2
+    exit 1
+  fi
+done
+
+SERVER="${SERVER_USER}@${SERVER_HOST}"
+SSH_KEY="${SSH_KEY/#\~/$HOME}"
+SSH_OPTS=(-i "$SSH_KEY" -p "$SERVER_PORT")
+
+BACKEND_REMOTE_PATH="/opt/clarity"
+FRONTEND_REMOTE_PATH="/var/www/clarity"
+
+PM2_USER="nodeapp" # whatever user you want your app to run under on the server
+PM2_APP="clarity"
+
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+FRONTEND_DIR="${REPO_ROOT}/frontend"
+BACKEND_DIR="${REPO_ROOT}/backend"
+FRONTEND_DIST="${FRONTEND_DIR}/dist/clarity/browser"
+
+DEPLOY_BACKEND=true
+DEPLOY_FRONTEND=true
+DRY_RUN=false
+
+for arg in "$@"; do
+  case "$arg" in
+    --backend-only)
+      DEPLOY_FRONTEND=false
+      ;;
+    --frontend-only)
+      DEPLOY_BACKEND=false
+      ;;
+    --dry-run)
+      DRY_RUN=true
+      ;;
+    *)
+      echo "Unknown option: ${arg}" >&2
+      echo "Usage: $0 [--backend-only | --frontend-only] [--dry-run]" >&2
+      exit 1
+      ;;
+  esac
+done
+
+RSYNC_OPTS=()
+if [ "$DRY_RUN" = true ]; then
+  echo "==> Dry run: no files will be transferred, no remote commands will be run"
+  RSYNC_OPTS+=(--dry-run)
+fi
+
+if [ "$DEPLOY_FRONTEND" = true ]; then
+  echo "==> Building frontend"
+  (cd "$FRONTEND_DIR" && npm run build)
+
+  if [ ! -d "$FRONTEND_DIST" ]; then
+    echo "Build output not found at ${FRONTEND_DIST}" >&2
+    exit 1
+  fi
+
+  echo "==> Syncing frontend to ${SERVER}:${FRONTEND_REMOTE_PATH}"
+  rsync -avz --no-o --no-g --no-perms --omit-dir-times --delete "${RSYNC_OPTS[@]}" -e "ssh ${SSH_OPTS[*]}" \
+    "${FRONTEND_DIST}/" \
+    "${SERVER}:${FRONTEND_REMOTE_PATH}/"
+fi
+
+if [ "$DEPLOY_BACKEND" = true ]; then
+  echo "==> Syncing backend to ${SERVER}:${BACKEND_REMOTE_PATH}"
+  rsync -avz --no-o --no-g --no-perms --omit-dir-times "${RSYNC_OPTS[@]}" -e "ssh ${SSH_OPTS[*]}" \
+    --exclude 'node_modules' \
+    --exclude '.env' \
+    --exclude '.env.path' \
+    --exclude 'README.md' \
+    --exclude 'data' \
+    --exclude 'tests' \
+    "${BACKEND_DIR}/" \
+    "${SERVER}:${BACKEND_REMOTE_PATH}/"
+
+  if [ "$DRY_RUN" = true ]; then
+    echo "==> Dry run: skipping remote npm install and pm2 restart"
+  else
+    echo "==> Installing backend dependencies on server"
+    ssh "${SSH_OPTS[@]}" "$SERVER" "cd ${BACKEND_REMOTE_PATH} && npm install --omit=dev"
+
+    echo "==> Restarting pm2 app: ${PM2_APP}"
+    ssh "${SSH_OPTS[@]}" "$SERVER" "sudo -u ${PM2_USER} /usr/local/bin/clarity-pm2 restart ${PM2_APP} && sudo -u ${PM2_USER} /usr/local/bin/clarity-pm2 save"
+  fi
+fi
+
+echo "==> Deploy complete"
