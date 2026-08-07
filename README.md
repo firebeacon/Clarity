@@ -3,6 +3,8 @@
 A tool for constrained, goal oriented conversations with LLMs using Claude API.
 Set goals, define constraints, and have conversations that stay anchored.
 
+This software is in development and is by no means complete. Features may be incomplete, broken, or subject to significant change. Use with caution.
+
 ## Structure
 
 ```
