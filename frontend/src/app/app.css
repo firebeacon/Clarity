@@ -1,0 +1,127 @@
+:root {
+  --bg: #0b0f14;
+  --panel: #0f1720;
+  --text: #e6eef6;
+  --muted: #9aa6b2;
+  --accent: #7c5cff;
+}
+
+html,
+body,
+app-root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  display: block;
+}
+
+/* Universal scrollbar styling */
+*::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+*::-webkit-scrollbar-track {
+  background: #374151 !important;
+  border-radius: 4px !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #6b7280 !important;
+  border-radius: 4px !important;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af !important;
+}
+
+*::-webkit-scrollbar-corner {
+  background: #374151 !important;
+}
+
+/* Firefox scrollbars */
+* {
+  scrollbar-width: thin !important;
+  scrollbar-color: #6b7280 #374151 !important;
+}
+
+router-outlet,
+main,
+.container {
+  display: block;
+}
+
+main.no-padding {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* make cards centered on small screens */
+.container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 2rem;
+}
+
+.container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 2rem;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: 1.25rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.card label {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.card .field {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+.card form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.card .primary {
+  margin-top: 0.75rem;
+  align-self: flex-end;
+}
+
+.card input,
+.card .field {
+  width: 100%;
+  padding: 0.6rem;
+  margin: 0.5rem 0;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  border-radius: 6px;
+}
+.card input::placeholder,
+.card .field::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+.card button,
+.card .primary {
+  padding: 0.6rem 0.9rem;
+  background: linear-gradient(90deg, var(--accent), #9b6bff);
+  color: white;
+  border-radius: 6px;
+  border: 0;
+}

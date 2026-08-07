@@ -1,0 +1,148 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'tailwindcss';
+
+/* Strong dark-mode overrides to ensure inputs and cards are visible */
+:root {
+  --bg: #0b0f14;
+  --text: #e6eef6;
+  --muted: #9aa6b2;
+  --accent: #7c5cff;
+}
+html,
+body,
+app-root {
+  height: 100%;
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  margin: 0 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+}
+app-root,
+router-outlet,
+main {
+  display: block;
+  min-height: 100vh;
+}
+.topnav {
+  background: #0e1418;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+.topnav a {
+  color: var(--text) !important;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+.card {
+  width: 100%;
+  max-width: 460px;
+  background: #07101a;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+.card label {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--muted);
+}
+.card .field,
+.card input,
+.card textarea {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+  padding: 0.6rem;
+  margin-top: 0.35rem;
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: var(--text) !important;
+  border-radius: 6px;
+}
+.card .field::placeholder,
+.card input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+.card .primary,
+.card button {
+  background: linear-gradient(90deg, var(--accent), #9b6bff) !important;
+  color: #fff !important;
+  border: 0;
+  padding: 0.6rem 0.9rem;
+  border-radius: 6px;
+}
+
+/* Ensure links and focus states are readable */
+a {
+  color: var(--accent);
+}
+input:focus,
+.card .field:focus {
+  outline: 2px solid rgba(124, 92, 255, 0.24);
+  box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.06);
+}
+
+/* Scrollbars */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #6b7280;
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+*::-webkit-scrollbar-corner {
+  background: #374151;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #6b7280 #374151;
+}
+
+/* glow text highlight */
+.glow-text {
+  color: #d5c8e1;
+  text-shadow:
+    0 0 1px #baa7ce,
+    0 0 3px #a855f7,
+    0 0 4px #7c3aed;
+}
+
+/* context block stagger fade-in */
+@keyframes context-block-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.context-fade-in {
+  animation: context-block-in 0.4s ease-out both;
+}
+
+/* form helpers */
+.form-row {
+  display: block;
+  width: 100%;
+}
+.form-row.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+.form-row.actions .primary {
+  align-self: center;
+}
