@@ -538,7 +538,8 @@ interface DragState {
     @if (showDayModal() && selectedDay()) {
       <div
         class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-        (click)="closeDayModal()"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && closeDayModal()"
       >
         <div
           class="bg-gray-800 rounded-xl border border-gray-700 w-[400px] max-h-[80vh] flex flex-col shadow-xl"
@@ -728,7 +729,8 @@ interface DragState {
     @if (timePickerOpen()) {
       <div
         class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50"
-        (click)="cancelTimePicker()"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && cancelTimePicker()"
       >
         <div
           class="bg-gray-800 rounded-xl border border-gray-700 p-5 w-72 shadow-xl"
@@ -772,7 +774,8 @@ interface DragState {
     @if (editModalOpen()) {
       <div
         class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50"
-        (click)="cancelEditModal()"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && cancelEditModal()"
       >
         <div
           class="bg-gray-800 rounded-xl border border-gray-700 p-6 w-[520px] shadow-xl"
@@ -843,7 +846,8 @@ interface DragState {
     @if (pendingDeleteTask()) {
       <div
         class="fixed inset-0 z-[70] flex items-center justify-center bg-black/50"
-        (click)="cancelDelete()"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && cancelDelete()"
       >
         <div
           class="bg-gray-800 rounded-xl border border-gray-700 p-5 w-72 shadow-xl"
@@ -877,6 +881,7 @@ export class WorkspacePlannerComponent implements OnInit {
   @Output() applyWeekPlan = new EventEmitter<void>();
   @Output() dataLoaded = new EventEmitter<void>();
 
+  backdropMousedownTarget: EventTarget | null = null;
   tasks = signal<PlannerTask[]>([]);
   plannerView = signal<PlannerView>('week');
   anchorDate = signal<Date>(new Date());

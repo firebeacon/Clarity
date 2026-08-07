@@ -461,7 +461,8 @@ import { TimeInputComponent } from './time-input.component';
     @if (showNewConvModal()) {
       <div
         class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-        (click)="showNewConvModal.set(false); showSeedPicker.set(false)"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && closeNewConvModal()"
       >
         <div
           class="bg-gray-800 rounded-lg p-6 shadow-xl border border-gray-700"
@@ -545,7 +546,8 @@ import { TimeInputComponent } from './time-input.component';
     @if (showHistoryModal()) {
       <div
         class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-        (click)="showHistoryModal.set(false)"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && showHistoryModal.set(false)"
       >
         <div
           class="bg-gray-800 rounded-xl border border-gray-700 w-[480px] max-h-[70vh] flex flex-col shadow-xl"
@@ -614,7 +616,8 @@ import { TimeInputComponent } from './time-input.component';
     @if (proposedTasksOpen()) {
       <div
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-        (click)="cancelProposedTasks()"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && cancelProposedTasks()"
       >
         <div
           class="bg-gray-800 rounded-xl border border-gray-700 p-5 w-[480px] max-h-[80vh] flex flex-col shadow-xl"
@@ -700,7 +703,8 @@ import { TimeInputComponent } from './time-input.component';
     @if (showConstraintsModal()) {
       <div
         class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-        (click)="showConstraintsModal.set(false)"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && showConstraintsModal.set(false)"
       >
         <div
           class="bg-gray-800 rounded-xl border border-gray-700 p-5 w-[540px] shadow-xl"
@@ -764,7 +768,8 @@ import { TimeInputComponent } from './time-input.component';
     @if (showChangeIntentModal()) {
       <div
         class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-        (click)="showChangeIntentModal.set(false)"
+        (mousedown)="backdropMousedownTarget = $event.target"
+        (click)="backdropMousedownTarget === $event.currentTarget && showChangeIntentModal.set(false)"
       >
         <div
           class="bg-gray-800 rounded-xl border border-gray-700 p-5 w-[480px] shadow-xl"
@@ -866,6 +871,7 @@ export class WorkspaceChatComponent implements OnInit {
   @ViewChild('titleInput') titleInput!: ElementRef;
   @ViewChild('sessionIntentInput') sessionIntentInput!: ElementRef;
 
+  backdropMousedownTarget: EventTarget | null = null;
   loadingRecent = signal(false);
   conversations = signal<any[]>([]);
   selectedConversation = signal<any | null>(null);
@@ -1006,6 +1012,11 @@ export class WorkspaceChatComponent implements OnInit {
 
   newConversation() {
     this.showNewConvModal.set(true);
+  }
+
+  closeNewConvModal() {
+    this.showNewConvModal.set(false);
+    this.showSeedPicker.set(false);
   }
 
   createFresh() {
@@ -1476,7 +1487,6 @@ export class WorkspaceChatComponent implements OnInit {
         this.pendingSeedBankId.set(response.bankSeedId ?? null);
         this.showSeedTitleDialog.set(true);
         setTimeout(() => this.seedTitleInput?.nativeElement?.select(), 50);
-        this.seedGenerated.emit();
       },
       error: () => this.generatingSeed.set(false),
     });
@@ -1488,6 +1498,7 @@ export class WorkspaceChatComponent implements OnInit {
     this.authService.updateSeed(id, { title: this.pendingSeedTitle.trim() }).subscribe({
       next: (updated: any) => {
         this.seedBankSeeds.update((seeds) => seeds.map((s) => (s.id === id ? updated : s)));
+        this.seedGenerated.emit();
       },
     });
     this.showSeedTitleDialog.set(false);
