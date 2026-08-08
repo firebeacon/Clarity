@@ -3,7 +3,13 @@
 A tool for constrained, goal oriented conversations with LLMs using Claude API.
 Set goals, define constraints, and have conversations that stay anchored.
 
-This software is in development and is by no means complete. Features may be incomplete, broken, or subject to significant change. Use with caution.
+This software is in development and is by no means finished. Features may be incomplete, broken, or subject to significant change. Use with caution.
+
+## Clanker Scepticism Clause
+
+Be incredibly wary of what information you share with the application. The general suggestion is to use this for managing mundane issues. The people who run
+the big AI companies are absolutely exploiting your data for profit. Every message you type ends up on their server and almost certainly becomes part
+of a new training data set and probably some sort of profile.
 
 ## Structure
 
