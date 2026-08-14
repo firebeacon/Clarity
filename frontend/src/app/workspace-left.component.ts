@@ -372,19 +372,27 @@ import { AuthService } from './auth.service';
               class="w-full h-96 bg-gray-700 text-gray-100 p-4 rounded-lg border border-gray-600 focus:outline-none focus:border-purple-500 resize-none custom-scrollbar"
             ></textarea>
           </div>
-          <div class="flex justify-end gap-2">
-            <button
-              (click)="closeConstraintsModal()"
-              class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors cursor-pointer"
-            >
-              Cancel
-            </button>
-            <button
-              (click)="saveConstraints()"
-              class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors cursor-pointer"
-            >
-              Save
-            </button>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">
+              @if (constraintsWordCount() < 10) {
+                At least 10 words required.
+              }
+            </span>
+            <div class="flex gap-2">
+              <button
+                (click)="closeConstraintsModal()"
+                class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                (click)="saveConstraints()"
+                [disabled]="constraintsWordCount() < 10"
+                class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-default"
+              >
+                Save
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -490,6 +498,10 @@ export class WorkspaceLeftComponent implements OnInit {
   showConstraintsModal = signal(false);
   constraintsText = '';
   defaultConstraints = '';
+
+  constraintsWordCount() {
+    return this.constraintsText.trim().split(/\s+/).filter(w => w).length;
+  }
 
   ngOnInit() {
     this.loadConstraints();
@@ -692,6 +704,7 @@ export class WorkspaceLeftComponent implements OnInit {
   }
 
   saveConstraints() {
+    if (this.constraintsWordCount() < 10) return;
     this.authService.updateConstraints(this.constraintsText).subscribe({
       next: (response: any) => {
         this.constraints.set(response.constraints || '');

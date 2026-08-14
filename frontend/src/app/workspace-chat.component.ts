@@ -700,42 +700,6 @@ import { TimeInputComponent } from './time-input.component';
       </div>
     }
 
-    <!-- Constraints -->
-    @if (showConstraintsModal()) {
-      <div
-        class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-        (mousedown)="backdropMousedownTarget = $event.target"
-        (click)="backdropMousedownTarget === $event.currentTarget && showConstraintsModal.set(false)"
-      >
-        <div
-          class="bg-gray-800 rounded-xl border border-gray-700 p-5 w-[540px] shadow-xl"
-          (click)="$event.stopPropagation()"
-        >
-          <h3 class="text-gray-200 font-semibold mb-3">Constraints</h3>
-          <textarea
-            [(ngModel)]="constraintsTextLocal"
-            rows="8"
-            class="w-full bg-gray-700 text-gray-200 text-sm px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-violet-500 placeholder-gray-500 resize-y"
-            placeholder="Enter constraints…"
-          ></textarea>
-          <div class="flex gap-2 justify-end mt-3">
-            <button
-              (click)="showConstraintsModal.set(false)"
-              class="px-4 py-1.5 text-sm text-gray-400 hover:text-white cursor-pointer transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              (click)="saveConstraints()"
-              class="px-4 py-1.5 text-sm bg-violet-600 text-white rounded hover:bg-violet-500 cursor-pointer transition-colors"
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      </div>
-    }
-
     <!-- Session Intent (new conversation, blocking) -->
     @if (showSessionIntentModal()) {
       <div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
@@ -896,8 +860,6 @@ export class WorkspaceChatComponent implements OnInit {
   modalSeeds = signal<any[]>([]);
   modalSeedsLoading = signal(false);
   showHistoryModal = signal(false);
-  showConstraintsModal = signal(false);
-  constraintsTextLocal = '';
   constraintsData = '';
   seedBankSeeds = signal<any[]>([]);
   pendingSeedTitle = '';
@@ -990,7 +952,6 @@ export class WorkspaceChatComponent implements OnInit {
   loadConstraints() {
     this.authService.getConstraints().subscribe((data: any) => {
       this.constraintsData = data.constraints || '';
-      this.constraintsTextLocal = this.constraintsData;
     });
   }
 
@@ -1204,7 +1165,6 @@ export class WorkspaceChatComponent implements OnInit {
     }
     this.authService.getConstraints().subscribe((data: any) => {
       this.constraintsData = data.constraints || '';
-      this.constraintsTextLocal = this.constraintsData;
       if (!this.constraintsData.trim()) {
         onComplete?.();
         return;
@@ -1564,21 +1524,6 @@ export class WorkspaceChatComponent implements OnInit {
           this.isLoading.set(false);
         },
       });
-  }
-
-  openConstraints() {
-    this.authService.getConstraints().subscribe((data: any) => {
-      this.constraintsData = data.constraints || '';
-      this.constraintsTextLocal = this.constraintsData;
-      this.showConstraintsModal.set(true);
-    });
-  }
-
-  saveConstraints() {
-    this.authService.updateConstraints(this.constraintsTextLocal).subscribe(() => {
-      this.constraintsData = this.constraintsTextLocal;
-      this.showConstraintsModal.set(false);
-    });
   }
 
   applyPlannerContext(onComplete?: () => void) {
