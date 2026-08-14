@@ -22,30 +22,37 @@ import { Component } from '@angular/core';
     <div class="p-10 max-w-3xl">
       <h1 class="text-2xl font-bold text-gray-100 mb-4">Solution</h1>
       <p class="text-gray-300 mb-6">
-        Set goals. Make constraints. Talk. Plan<br /><br />
-        <span class="glow-text">That's it.</span><br /><br />
+        Clarity gives your LLM conversations structure. Set goals to keep sessions on track, define
+        constraints to shape how the LLM responds, and use the planner to turn conversations into
+        concrete next steps.
       </p>
 
       <h2 class="text-lg font-semibold text-gray-200 mb-3">Key Principles</h2>
       <ul class="space-y-2 text-gray-300">
         <li class="flex gap-2">
-          <span class="text-gray-500">•</span>Use a constrained LLM in combination with your goals
-          to plan and move forwards.
+          <span class="text-gray-500">•</span>Goals anchor conversations to what you actually want
+          to achieve.
         </li>
-        <li class="flex gap-2"><span class="text-gray-500">•</span>When in doubt, go outside.</li>
+        <li class="flex gap-2">
+          <span class="text-gray-500">•</span>Constraints make LLM behaviour more consistent and
+          predictable.
+        </li>
+        <li class="flex gap-2">
+          <span class="text-gray-500">•</span>Seeds let you capture and reuse useful conversation
+          starting points.
+        </li>
+        <li class="flex gap-2">
+          <span class="text-gray-500">•</span>The planner bridges conversations and real tasks.
+        </li>
       </ul>
 
-      <br /><br />
-
-      <p class="text-gray-300 mb-6">
-        <span class="glow-text">Clarity</span> exists to help you get unstuck. Hopefully it helps.
-        If it doesn't, please let us know how we can improve.<br /><br />
+      <p class="text-gray-300 mt-6">
         <i
           >This is open source software. You can
           <a href="https://github.com/firebeacon/Clarity" target="_blank" rel="noopener noreferrer"
             >help</a
           >
-          move it towards something even better.</i
+          move it towards something better.</i
         >
       </p>
     </div>

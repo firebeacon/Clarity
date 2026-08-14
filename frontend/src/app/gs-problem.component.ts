@@ -22,22 +22,22 @@ import { Component } from '@angular/core';
     <div class="p-10 max-w-3xl">
       <h1 class="text-2xl font-bold text-gray-100 mb-4">Problem</h1>
       <p class="text-gray-300 mb-6">
-        Attention is fractured. The capacity to focus has been eroded.<br /><br />
-        <span class="glow-text">Without action slippage is inevitable.</span><br /><br />
+        LLMs are useful tools, but open-ended chat tends to drift. Without structure, conversations
+        wander and it's easy to lose track of what you actually wanted to get done.
       </p>
       <h2 class="text-lg font-semibold text-gray-200 mb-3">Key Issues</h2>
       <ul class="space-y-2 text-gray-300">
         <li class="flex gap-2">
-          <span class="text-gray-500">•</span>Attention spans are rapidly degrading.
+          <span class="text-gray-500">•</span>Conversations lose focus without clear goals.
         </li>
         <li class="flex gap-2">
-          <span class="text-gray-500">•</span>Simple planning tasks are hard to sustain.
+          <span class="text-gray-500">•</span>LLM responses vary wildly without constraints.
         </li>
         <li class="flex gap-2">
-          <span class="text-gray-500">•</span>Jumbled minds in isolation struggle to plan.
+          <span class="text-gray-500">•</span>Progress is hard to track across sessions.
         </li>
         <li class="flex gap-2">
-          <span class="text-gray-500">•</span>This trajectory ends in death and sadness.
+          <span class="text-gray-500">•</span>Planning is difficult without a structured format.
         </li>
       </ul>
     </div>
