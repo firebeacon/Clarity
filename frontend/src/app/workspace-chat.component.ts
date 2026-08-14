@@ -594,6 +594,7 @@ import { TimeInputComponent } from './time-input.component';
           <input
             [(ngModel)]="pendingSeedTitle"
             #seedTitleInput
+            (keydown.enter)="pendingSeedTitle.trim() && saveSeedTitle()"
             class="w-full bg-gray-700 text-gray-100 px-3 py-2 rounded border border-gray-500 focus:outline-none focus:border-teal-500 mb-4"
           />
           <div class="flex justify-end">
@@ -853,6 +854,14 @@ import { TimeInputComponent } from './time-input.component';
         </div>
       </div>
     }
+
+    @if (showSeedSavedToast()) {
+      <div class="fixed inset-0 flex items-center justify-center z-[100] pointer-events-none">
+        <div class="bg-green-700 text-white text-sm font-medium px-5 py-3 rounded-lg shadow-lg">
+          Seed saved!
+        </div>
+      </div>
+    }
   `,
 })
 export class WorkspaceChatComponent implements OnInit {
@@ -894,6 +903,7 @@ export class WorkspaceChatComponent implements OnInit {
   pendingSeedTitle = '';
   pendingSeedBankId = signal<number | null>(null);
   showSeedTitleDialog = signal(false);
+  showSeedSavedToast = signal(false);
   proposedTasksOpen = signal(false);
   proposedTasks = signal<
     { title: string; day: string | null; start_time: string | null; end_time: string | null }[]
@@ -1447,6 +1457,7 @@ export class WorkspaceChatComponent implements OnInit {
     const next = Math.min(el.scrollHeight, 150);
     el.style.height = next + 'px';
     el.style.overflowY = next >= 150 ? 'auto' : 'hidden';
+    this.scrollToBottom();
   }
 
   scrollToBottom() {
@@ -1472,6 +1483,7 @@ export class WorkspaceChatComponent implements OnInit {
 
   setSeedResolutionAnswer(val: boolean) {
     this.seedResolutionAnswer.set(val);
+    if (val) this.confirmSeedResolution();
   }
 
   confirmSeedResolution() {
@@ -1516,6 +1528,8 @@ export class WorkspaceChatComponent implements OnInit {
     this.showSeedTitleDialog.set(false);
     this.pendingSeedBankId.set(null);
     this.pendingSeedTitle = '';
+    this.showSeedSavedToast.set(true);
+    setTimeout(() => this.showSeedSavedToast.set(false), 2000);
     if (this.proposedTasks().length > 0) {
       this.proposedTasksOpen.set(true);
     }
