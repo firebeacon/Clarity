@@ -1188,10 +1188,22 @@ export class WorkspaceChatComponent implements OnInit {
 
   applyConstraints(onComplete?: () => void) {
     const conv = this.selectedConversation();
-    if (!conv || this.isLoading() || !this.constraintsData.trim()) {
+    if (!conv || this.isLoading()) {
       onComplete?.();
       return;
     }
+    this.authService.getConstraints().subscribe((data: any) => {
+      this.constraintsData = data.constraints || '';
+      this.constraintsTextLocal = this.constraintsData;
+      if (!this.constraintsData.trim()) {
+        onComplete?.();
+        return;
+      }
+      this._doApplyConstraints(conv, onComplete);
+    });
+  }
+
+  private _doApplyConstraints(conv: any, onComplete?: () => void) {
     this.isLoading.set(true);
     const placeholder = {
       id: Date.now(),
