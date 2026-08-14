@@ -77,14 +77,14 @@ export class LoginComponent {
     private auth: AuthService,
     private router: Router,
   ) {
-    if (this.auth.isLoggedIn()) this.router.navigate(['/analytics']);
+    if (this.auth.isLoggedIn()) this.router.navigate(['/workspace']);
   }
 
   onSubmit() {
     this.auth.login(this.email, this.password).subscribe({
       next: (res: any) => {
         localStorage.setItem('token', res.token);
-        this.router.navigate(['/analytics']);
+        this.router.navigate(['/workspace']);
       },
       error: (e) => (this.error = e?.error?.error || 'login failed'),
     });
