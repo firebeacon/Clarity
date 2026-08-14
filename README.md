@@ -21,21 +21,51 @@ deploy/     Deployment scripts
 
 ## Running locally
 
-**Backend**
+See `backend/README.md` and `frontend/README.md` for further details relating to each.
+
+## Environment setup
+
+Before starting the backend, create `backend/.env` from the example:
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+Then set the required values:
+
+| Variable | Description |
+|----------|-------------|
+| `JWT_SECRET` | Strong random secret used to sign auth tokens |
+| `CLAUDE_API_KEY` | Anthropic API key |
+| `DB_FILE` | Path to the SQLite database file (default: `./data/clarity.db`) |
+| `PORT` | Port to listen on (default: `3003`) |
+| `NODE_ENV` | `development` or `production` |
+
+Optionally, the Mailgun variables (`MAILGUN_API_KEY`, `MAILGUN_DOMAIN`, `ALERT_EMAIL_TO`, `ALERT_EMAIL_FROM`) enable login alert emails. `TRUST_PROXY=1` should be set when running behind a reverse proxy.
+
+### Storing .env outside the project
+
+If you prefer to keep the `.env` file outside the project directory (e.g. for security on a server, or if an LLM has access to your work locally and you don't want anything critical getting leaked to the server it speaks to), create `backend/.env.path` containing the absolute path to it:
+
+```
+~/path/to/your/.env
+```
+
+The backend will read that path and load the file from there instead.
+
+**Start Backend**
 ```bash
 cd backend
 npm install
 npm start        # http://localhost:3003
 ```
 
-**Frontend**
+**Start Frontend**
 ```bash
 cd frontend
 npm install
 npm start        # http://localhost:4200
 ```
-
-See `backend/README.md` and `frontend/README.md` for environment setup and further details.
 
 ## Seeding an admin user
 
