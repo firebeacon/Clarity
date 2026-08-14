@@ -16,7 +16,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
-import { DashboardComponent } from './dashboard.component';
 import { GettingStartedComponent } from './getting-started.component';
 import { AnalyticsComponent } from './analytics.component';
 import { PlannerComponent } from './planner.component';
@@ -30,7 +29,6 @@ import { adminGuard } from './admin.guard';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'getting-started', component: GettingStartedComponent, canActivate: [authGuard] },
   { path: 'analytics', component: AnalyticsComponent, canActivate: [authGuard] },
   { path: 'planner', component: PlannerComponent, canActivate: [authGuard] },
@@ -38,6 +36,6 @@ export const routes: Routes = [
   { path: 'account', component: AccountComponent, canActivate: [authGuard] },
   { path: 'admin/login', component: AdminLoginComponent },
   { path: 'admin/users', component: AdminUsersComponent, canActivate: [adminGuard] },
-  { path: '', redirectTo: '/analytics', pathMatch: 'full' },
-  { path: '**', redirectTo: '/analytics' },
+  { path: '', redirectTo: '/workspace', pathMatch: 'full' },
+  { path: '**', redirectTo: '/workspace' },
 ];
