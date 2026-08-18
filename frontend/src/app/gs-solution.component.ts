@@ -22,8 +22,8 @@ import { Component } from '@angular/core';
     <div class="p-10 max-w-3xl">
       <h1 class="text-2xl font-bold text-gray-100 mb-4">Solution</h1>
       <p class="text-gray-300 mb-6">
-        Clarity gives your LLM conversations structure. Set goals to keep sessions on track, define
-        constraints to shape how the LLM responds, and use the planner to turn conversations into
+        Clarity gives your LLM conversations structure and guides the LLM to behave more appropriately (or at least attempts to). 
+        Set goals to keep sessions on track, define constraints to shape how the LLM responds, and use the planner to turn conversations into
         concrete next steps.
       </p>
 
@@ -34,12 +34,11 @@ import { Component } from '@angular/core';
           to achieve.
         </li>
         <li class="flex gap-2">
-          <span class="text-gray-500">•</span>Constraints make LLM behaviour more consistent and
-          predictable.
+          <span class="text-gray-500">•</span>Constraints can make LLM behaviour more consistent and
+          less annoying.
         </li>
         <li class="flex gap-2">
-          <span class="text-gray-500">•</span>Seeds let you capture and reuse useful conversation
-          starting points.
+          <span class="text-gray-500">•</span>Seeds let you capture and reuse snapshots of conversation state.
         </li>
         <li class="flex gap-2">
           <span class="text-gray-500">•</span>The planner bridges conversations and real tasks.
