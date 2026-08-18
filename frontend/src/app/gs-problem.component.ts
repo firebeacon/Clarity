@@ -31,7 +31,7 @@ import { Component } from '@angular/core';
           <span class="text-gray-500">•</span>Conversations lose focus without clear goals.
         </li>
         <li class="flex gap-2">
-          <span class="text-gray-500">•</span>LLM responses vary wildly without constraints.
+          <span class="text-gray-500">•</span>LLM responses can be problematic without constraints.
         </li>
         <li class="flex gap-2">
           <span class="text-gray-500">•</span>Progress is hard to track across sessions.
