@@ -34,7 +34,7 @@ const PHASE_NAMES: Record<number, string> = {
   imports: [RouterLink, RouterLinkActive],
   template: `
     <div class="flex items-center gap-4 px-6 py-3 bg-gray-800 border-b border-gray-700">
-      <div class="flex flex-col leading-tight">
+      <div class="flex flex-col leading-tight w-32">
         <span class="text-gray-100 font-semibold">Clarity</span>
         @if (title) {
           <span class="text-gray-500 text-xs">{{ title }}</span>
